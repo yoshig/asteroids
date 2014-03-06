@@ -121,7 +121,7 @@
     (obj.pos[0] - obj.radius < 0) ||
     (obj.pos[0] + obj.radius > Game.DIM_X) ||
     (obj.pos[1] - obj.radius < 0) ||
-    (obj.pos[1] + obj.radius > Game.DIM_Y) )
+    (obj.pos[1] + obj.radius > Game.DIM_Y)
   };
 
 })(this);
