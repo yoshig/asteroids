@@ -15,7 +15,7 @@
   Game.addAsteroids = function(numAsteroids) {
     var asteroids = [];
     for (i = 0; i < numAsteroids; i++) {
-      asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X, Game.DIM_Y))
+      asteroids.push(Asteroids.Asteroid.newAsteroid(Game.DIM_X, Game.DIM_Y))
     }
     return asteroids;
   };
@@ -23,8 +23,8 @@
   Game.prototype.draw = function() {
     var that = this
 
-    this.ctx.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
-
+		this.ctx.fillStyle = "#9ea7b8";
+		this.ctx.fillRect(0,0,Game.DIM_X,Game.DIM_Y);
     this.asteroids.forEach(function (asteroid) {
       asteroid.draw(that.ctx);
     });
@@ -69,7 +69,6 @@
       var ast = bullet.hitAsteroid(that.asteroids);
 
       if (ast) {
-        console.log(ast);
         that.removeAsteroid(ast, bullet);
       }
     })
@@ -82,18 +81,15 @@
   Game.prototype.checkAsteroidPos = function() {
     var that = this;
     this.asteroids.forEach(function(ast) {
-      var addStroids = 0;
-      if ( (ast.pos[0] - ast.radius < 0) ||
-           (ast.pos[0] + ast.radius > Game.DIM_X) ||
-           (ast.pos[1] - ast.radius < 0) ||
-           (ast.pos[1] + ast.radius > Game.DIM_Y) ) {
+      if ( (ast.pos[0] + ast.radius < 0) ||
+           (ast.pos[0] - ast.radius > Game.DIM_X) ||
+           (ast.pos[1] + ast.radius < 0) ||
+           (ast.pos[1] - ast.radius > Game.DIM_Y) ) {
              that.asteroids.splice(that.asteroids.indexOf(ast), 1)
-             addStroids += 1;
+						 var newStroid = Asteroids.Asteroid.moveAsteroid(ast, Game.DIM_X, Game.DIM_Y)
+						 that.asteroids.push(newStroid)
            }
-      for (var i = 0; i < addStroids; i++) {
-        that.asteroids.push(Asteroids.Asteroid.randomAsteroid(Game.DIM_X, Game.DIM_Y))
-      }
-    })
+	    })
   };
 
   Game.prototype.bindKeyHandlers = function() {
