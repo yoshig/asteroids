@@ -33,10 +33,8 @@
       bullet.draw(that.ctx);
     })
     this.ship.draw(this.ctx);
-		if (this.showLevel) {
-			this.ctx.font="30px Arial";
-			this.ctx.strokeText("Level " + this.level,10,50);
-		}
+		this.ctx.font="30px Arial";
+		this.ctx.strokeText("Level " + this.level,10,50);
   };
 
   Game.prototype.move = function() {
@@ -74,7 +72,6 @@
 
     this.bullets.forEach( function(bullet) {
       var ast = bullet.hitAsteroid(that.asteroids);
-
       if (ast) {
         that.removeAsteroid(ast, bullet);
       }
@@ -98,12 +95,6 @@
 	Game.prototype.levelUp = function() {
 		this.level = this.level + 1;
 		this.asteroids = Game.addAsteroids( this.numAsteroids + (this.level * 2) - 1);
-		this.showLevel = true
-		var that = this
-		setTimeout(function() {
-			this.showLevel = false
-			console.log("WHAT")
-		}, 3000)
 	};
 
   Game.prototype.bindKeyHandlers = function() {
