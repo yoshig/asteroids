@@ -20,15 +20,6 @@
     );
   }
 
-	Asteroid.moveAsteroid = function (ast, dimX, dimY) {
-		return new Asteroid(
-			[Math.abs(Math.abs(ast.pos[0]) - dimX), Math.abs(Math.abs(ast.pos[1]) - dimY)],
-			ast.vel,
-			ast.radius,
-			ast.color
-		)
-	}
-
   Asteroid.randomVec = function() {
     var dx = (Math.random() * 1) - 0.5;
     var dy = (Math.random() * 1) - 0.5;

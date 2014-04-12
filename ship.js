@@ -32,6 +32,4 @@
     return Asteroids.Bullet.addBullet(bulletPos, dir);
   }
 
-
-
 })(this)

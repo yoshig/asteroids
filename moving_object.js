@@ -47,4 +47,8 @@
     return (radiiSum > distance);
   };
 
+	MovingObj.prototype.switchSides = function(dimX, dimY) {
+		this.pos = [Math.abs(Math.abs(this.pos[0]) - dimX), Math.abs(Math.abs(this.pos[1]) - dimY)];
+	}
+
 })(this);

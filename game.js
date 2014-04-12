@@ -3,7 +3,8 @@
 
   var Game = Asteroids.Game = function(ctx, numAsteroids) {
     this.ctx = ctx;
-    this.asteroids = Game.addAsteroids(numAsteroids);
+		this.numAsteroids = numAsteroids;
+    this.asteroids = [];
     this.ship = Asteroids.Ship.newShip([Game.DIM_X / 2, Game.DIM_Y / 2]);
     this.bullets = [];
   };
@@ -31,7 +32,11 @@
     this.bullets.forEach( function(bullet) {
       bullet.draw(that.ctx);
     })
-    this.ship.draw(that.ctx);
+    this.ship.draw(this.ctx);
+		if (this.showLevel) {
+			this.ctx.font="30px Arial";
+			this.ctx.strokeText("Level " + this.level,10,50);
+		}
   };
 
   Game.prototype.move = function() {
@@ -49,9 +54,11 @@
     this.draw();
     this.checkCollisions();
     this.checkAsteroidPos();
+		this.checkOutOfBounds(this.ship);
   };
 
   Game.prototype.start = function() {
+		this.level = 0;
     this.bindKeyHandlers();
     this.timerId = setInterval(this.step.bind(this), this.FPS)
   };
@@ -79,18 +86,25 @@
   };
 
   Game.prototype.checkAsteroidPos = function() {
+		if (this.asteroids.length == 0) {
+			this.levelUp();
+		}
     var that = this;
     this.asteroids.forEach(function(ast) {
-      if ( (ast.pos[0] + ast.radius < 0) ||
-           (ast.pos[0] - ast.radius > Game.DIM_X) ||
-           (ast.pos[1] + ast.radius < 0) ||
-           (ast.pos[1] - ast.radius > Game.DIM_Y) ) {
-             that.asteroids.splice(that.asteroids.indexOf(ast), 1)
-						 var newStroid = Asteroids.Asteroid.moveAsteroid(ast, Game.DIM_X, Game.DIM_Y)
-						 that.asteroids.push(newStroid)
-           }
-	    })
+      that.checkOutOfBounds(ast)
+		});
   };
+
+	Game.prototype.levelUp = function() {
+		this.level = this.level + 1;
+		this.asteroids = Game.addAsteroids( this.numAsteroids + (this.level * 2) - 1);
+		this.showLevel = true
+		var that = this
+		setTimeout(function() {
+			this.showLevel = false
+			console.log("WHAT")
+		}, 3000)
+	};
 
   Game.prototype.bindKeyHandlers = function() {
     var that = this;
@@ -113,11 +127,13 @@
     that.bullets.splice(that.bullets.indexOf(bullet), 1)
   };
 
-  Game.prototype.isOutOfBounds = function(obj) {
-    (obj.pos[0] - obj.radius < 0) ||
-    (obj.pos[0] + obj.radius > Game.DIM_X) ||
-    (obj.pos[1] - obj.radius < 0) ||
-    (obj.pos[1] + obj.radius > Game.DIM_Y)
+  Game.prototype.checkOutOfBounds = function(obj) {
+    if ((obj.pos[0] + obj.radius < 0) ||
+    (obj.pos[0] - obj.radius > Game.DIM_X) ||
+    (obj.pos[1] + obj.radius < 0) ||
+    (obj.pos[1] - obj.radius > Game.DIM_Y)) {
+    	obj.switchSides(Game.DIM_X, Game.DIM_Y)
+    }
   };
 
 })(this);

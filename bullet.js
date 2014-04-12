@@ -7,7 +7,7 @@
 
   Bullet.inherits(Asteroids.MovingObj);
 
-  Bullet.RADIUS = 10;
+  Bullet.RADIUS = 4;
   Bullet.COLOR = "blue"
 
   Bullet.addBullet = function(pos, dir) {
