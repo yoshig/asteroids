@@ -65,8 +65,15 @@
     var that = this;
     this.asteroids.forEach( function(asteroid) {
       if (asteroid.isCollided(that.ship)) {
-        alert("YOU SUNK MY BATTLE SHIP");
         that.stop();
+				that.ctx.font="30px Arial";
+				that.ctx.fillStyle = "blue";
+				that.ctx.fillText("YOU WERE DESTROYED!",75,150);
+				that.ctx.font="20px Arial";
+				that.ctx.fillText("Press 'R' to play again",150,250);
+				key('r', function() {
+					new Asteroids.Game(canvas, 2).start();
+				});
       }
     })
 
@@ -104,13 +111,15 @@
 	};
 
   Game.prototype.bindKeyHandlers = function() {
+
     var that = this;
 
+		key.unbind('r');
     key('w', function() { that.ship.power([0, -0.2]) });
     key('a', function() { that.ship.power([-0.2, 0]) });
     key('s', function() { that.ship.power([0, 0.2]) });
     key('d', function() { that.ship.power([0.2, 0]) });
-    key('m', function() { that.fireBullet() });
+    key('space', function() { that.fireBullet() });
   };
 
   Game.prototype.fireBullet = function () {
