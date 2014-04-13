@@ -73,7 +73,13 @@
     this.bullets.forEach( function(bullet) {
       var ast = bullet.hitAsteroid(that.asteroids);
       if (ast) {
-        that.removeAsteroid(ast, bullet);
+				that.removeAsteroid(ast, bullet);
+				if (ast.radius == Asteroids.Asteroid.RADIUS) {
+					var minis = ast.crumble();
+					minis.forEach(function(mini) {
+						that.asteroids.push(mini);
+					})
+				}
       }
     })
   };

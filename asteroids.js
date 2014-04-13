@@ -26,4 +26,17 @@
 
     return [dx, dy];
   };
+
+	Asteroid.prototype.crumble = function() {
+		var minis = [];
+		for (var i = 0; i < 3; i++) {
+			minis.push(new Asteroid(
+				[this.pos[0] + i, this.pos[1] + i],
+				Asteroid.randomVec(),
+				Asteroid.RADIUS * .7,
+				Asteroid.COLOR[Math.floor(Math.random()*(Asteroid.COLOR.length))]
+			))
+		}
+		return minis;
+	};
 })(this)
