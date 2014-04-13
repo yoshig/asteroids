@@ -13,12 +13,11 @@
       [0, 0],
       Ship.RADIUS,
       Ship.COLOR,
-      Ship.getPts(0, pos)
+      Ship.getPts(0)
     );
   };
 
-  Ship.getPts =function(dir, pos) {
-    var x = pos[0], y = pos[1];
+  Ship.getPts =function(dir) {
     console.log(dir)
     console.log([dir, dir + 1/3 * Math.PI, dir + 2/3 * Math.PI])
     return [dir, dir + 2/3 * Math.PI, dir + 4/3 * Math.PI]
@@ -30,6 +29,18 @@
   Ship.prototype.power = function(impulse) {
     this.vel[0] += impulse[0];
     this.vel[1] += impulse[1];
+    var dir;
+    if (this.vel[0] == 0 && this.vel[1] == 0) {
+      dir = 0;
+    } else if (this.vel[0] == 0) {
+      dir = this.vel[1] > 0 ? Math.PI : -Math.PI
+    } else if (this.vel[1] == 0) {
+      dir = this.vel[0] > 0 ? 0 : -2 * Math.PI
+    } else {
+      dir = this.vel[0] == 0 && this.vel[1] == 0 ? 0 : this.vel[0]/this.vel[1]
+    }
+    this.pts = Ship.getPts(Math.atan(dir));
+    
   };
 
   Ship.prototype.fireBullet = function() {

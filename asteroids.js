@@ -32,14 +32,15 @@
   Asteroid.createPts = function() {
     var i = 0;
     var r = this.RADIUS;
-    var ast_pts = [];
+    var astPts = [0];
     while (i < 2 * Math.PI) {
       i = i + Math.random()
       if (i < 2 * Math.PI) {
-        ast_pts.push(i)
+        astPts.push(i)
       }
     }
-    return ast_pts
+    astPts.push(2 * Math.PI)
+    return astPts
   };
 
 	Asteroid.prototype.crumble = function() {

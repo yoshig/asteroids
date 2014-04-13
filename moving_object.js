@@ -10,12 +10,13 @@
 
   var Asteroids = root.Asteroids = (root.Asteroids || {});
 
-  var MovingObj = Asteroids.MovingObj = function (pos, vel, radius, color, pts) {
+  var MovingObj = Asteroids.MovingObj = function (pos, vel, radius, color, pts, dir) {
     this.pos = pos;
     this.vel = vel;
     this.radius = radius;
     this.color = color;
-    this.pts = pts
+    this.pts = pts;
+    this.dir = dir;
   };
 
   MovingObj.prototype.move = function() {
@@ -28,10 +29,17 @@
     ctx.beginPath();
 
     if(this.pts) {
-      var rotate = (this.pos[0] + this.pos[1] % 50) / 50;
+      var rotate, idxs;
+      if (this instanceof Asteroids.Ship) {
+        rotate = this.pts[0];
+        idxs = this.pts.slice(1);
+      } else {
+        rotate = (this.pos[0] + this.pos[1] % 50) / 50;
+        idxs = this.pts;
+      }
       var x = this.pos[0], y = this.pos[1], r = this.radius, that = this;
       ctx.moveTo(x + Math.sin(rotate) * r + 4, y + Math.cos(rotate) * r + 4);
-      this.pts.forEach(function(corner) {
+      idxs.forEach(function(corner) {
         var pt = corner + rotate
         ctx.lineTo(x + Math.sin(pt) * r + 4, y + Math.cos(pt) * r + 4)
       })

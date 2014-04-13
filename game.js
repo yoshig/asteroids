@@ -34,7 +34,8 @@
     })
     this.ship.draw(this.ctx);
 		this.ctx.font="30px Arial";
-		this.ctx.strokeText("Level " + this.level,10,50);
+    this.ctx.fillStyle = "blue";
+		this.ctx.fillText("Level " + this.level,10,90);
   };
 
   Game.prototype.move = function() {
